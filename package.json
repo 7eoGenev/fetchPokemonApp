@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "inquirer": "^12.6.0"
+  },
+  "name": "pokemonproject",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "debug": "node pokemon.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Teodor Genev",
+  "license": "ISC",
+  "description": "",
+  "type": "module"
+}
