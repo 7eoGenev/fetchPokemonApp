@@ -1,6 +1,10 @@
 import getPokemonStats from "./choosePokemon.js";
 import * as file from "fs/promises";
-import { createStatsFile, createSpriteFolder } from "./createFile.js";
+import {
+    createStatsFile,
+    createSpriteFolder,
+    createArtwork,
+} from "./createFile.js";
 
 const fetchPokemon = async () => {
     // creating a loop
@@ -26,13 +30,18 @@ const fetchPokemon = async () => {
             .join("\n");
 
         const spriteUrl = result.sprites;
-        // creating sprites png
+
+        const artworkUrl =
+            result.sprites.other["official-artwork"].front_default;
 
         // creating and inserting stats' txt file
         await createStatsFile(chosen_pokemon, chosen_attributes, showStats);
+
+        // creating sprites png files and folder
         await createSpriteFolder(chosen_pokemon, chosen_attributes, spriteUrl);
 
-        // creating sprites files
+        // creating artwork file
+        await createArtwork(chosen_pokemon, chosen_attributes, artworkUrl);
 
         continueFetch = proceeding;
     }

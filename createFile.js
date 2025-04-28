@@ -45,3 +45,22 @@ export async function createSpriteFolder(
         }
     }
 }
+
+// creating artwork file
+
+export async function createArtwork(pokemonName, attributes, artwork) {
+    if (attributes.includes("Artwork")) {
+        try {
+            const fetchArtwork = await fetch(artwork);
+            const bufferArtwork = await fetchArtwork.arrayBuffer();
+
+            await file.writeFile(
+                `./${pokemonName}_artwork.png`,
+                Buffer.from(bufferArtwork)
+            );
+            console.log(`Saved ${pokemonName} artwork`);
+        } catch (error) {
+            console.error("Error saved artwork:", error.message);
+        }
+    }
+}
