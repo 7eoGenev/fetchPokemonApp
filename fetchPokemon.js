@@ -1,6 +1,6 @@
 import getPokemonStats from "./choosePokemon.js";
-import createTextFile from "./saving.js";
 import * as file from "fs/promises";
+import { createStatsFile, createSpriteFolder } from "./createFile.js";
 
 const fetchPokemon = async () => {
     // creating a loop
@@ -25,19 +25,14 @@ const fetchPokemon = async () => {
             })
             .join("\n");
 
-        if (chosen_attributes.includes("Stats")) {
-            showStats;
-        }
+        const spriteUrl = result.sprites;
+        // creating sprites png
 
         // creating and inserting stats' txt file
+        await createStatsFile(chosen_pokemon, chosen_attributes, showStats);
+        await createSpriteFolder(chosen_pokemon, chosen_attributes, spriteUrl);
 
-        await file.writeFile(
-            `./${chosen_pokemon}.txt`,
-            `${showStats}`,
-            "utf-8"
-        );
-
-        // whether or not to stop the loop
+        // creating sprites files
 
         continueFetch = proceeding;
     }
