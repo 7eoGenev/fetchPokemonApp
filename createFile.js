@@ -15,7 +15,7 @@ export async function createStatsFile(pokemonName, attributes, statsText) {
             console.log(chalk.green(`Saved ${pokemonName}_stats.txt`));
         }
     } catch (error) {
-        console.error(chalk.red("Error occured saving stats:", error));
+        console.error(chalk.red("Error occured saving stats:\n"), error);
     }
 }
 
@@ -48,7 +48,7 @@ export async function createSpriteFolder(
                 }
             }
         } catch (error) {
-            console.error(chalk.red("Error saved sprites:", error.message));
+            console.error(chalk.red("Error saved sprites:\n"), error.message);
         }
     }
 }
@@ -65,7 +65,7 @@ export async function createArtwork(pokemonName, attributes, artwork) {
             await file.writeFile(pathToFile, Buffer.from(bufferArtwork));
             console.log(chalk.green(`Saved ${pokemonName} artwork`));
         } catch (error) {
-            console.error(chalk.red("Error saved artwork:", error.message));
+            console.error(chalk.red("Error saved artwork:\n"), error.message);
         }
     }
 }

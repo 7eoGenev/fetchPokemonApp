@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import getPokemonStats from "./choosePokemon.js";
 
 import {
@@ -7,43 +8,54 @@ import {
 } from "./createFile.js";
 
 const fetchPokemon = async () => {
-    // creating a loop
-
     let continueFetch = true;
+
+    // creating a loop
     while (continueFetch) {
-        const { chosen_pokemon, chosen_attributes, proceeding } =
-            await getPokemonStats();
+        try {
+            const { chosen_pokemon, chosen_attributes, proceeding } =
+                await getPokemonStats();
 
-        // fetching pokemon data
+            // fetching pokemon data
 
-        const fetchApi = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${chosen_pokemon}`
-        );
-        const result = await fetchApi.json();
+            const fetchApi = await fetch(
+                `https://pokeapi.co/api/v2/pokemon/${chosen_pokemon}`
+            );
+            const result = await fetchApi.json();
 
-        // creating stats' text
+            // creating stats' text
 
-        const showStats = result.stats
-            .map((stat) => {
-                return `${stat.stat.name}: ${stat.base_stat}`;
-            })
-            .join("\n");
+            const showStats = result.stats
+                .map((stat) => {
+                    return `${stat.stat.name}: ${stat.base_stat}`;
+                })
+                .join("\n");
 
-        const spriteUrl = result.sprites;
+            const spriteUrl = result.sprites;
 
-        const artworkUrl =
-            result.sprites.other["official-artwork"].front_default;
+            const artworkUrl =
+                result.sprites.other["official-artwork"].front_default;
 
-        // creating and inserting stats' txt file
-        await createStatsFile(chosen_pokemon, chosen_attributes, showStats);
+            // creating and inserting stats' txt file
+            await createStatsFile(chosen_pokemon, chosen_attributes, showStats);
 
-        // creating sprites png files and folder
-        await createSpriteFolder(chosen_pokemon, chosen_attributes, spriteUrl);
+            // creating sprites png files and folder
+            await createSpriteFolder(
+                chosen_pokemon,
+                chosen_attributes,
+                spriteUrl
+            );
 
-        // creating artwork file
-        await createArtwork(chosen_pokemon, chosen_attributes, artworkUrl);
+            // creating artwork file
+            await createArtwork(chosen_pokemon, chosen_attributes, artworkUrl);
 
-        continueFetch = proceeding;
+            continueFetch = proceeding;
+        } catch (error) {
+            console.error(
+                chalk.red("Error occured fetching pokemon data:\n"),
+                error
+            );
+        }
     }
 };
 

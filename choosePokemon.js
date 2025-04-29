@@ -23,7 +23,7 @@ const getPokemonStats = async () => {
         ]);
         return pokemon;
     } catch (error) {
-        console.error(chalk.red("An error occurred:", error));
+        console.error(chalk.red("An error occurred:\n"), error);
         throw error;
     }
 };
