@@ -1,5 +1,9 @@
 import chalk from "chalk";
-import getPokemonStats from "./choosePokemon.js";
+import {
+    getPokemonStats,
+    choosePokemonStats,
+    showPokemonList,
+} from "./choosePokemon.js";
 
 import {
     createStatsFile,
@@ -8,14 +12,18 @@ import {
 } from "./createFile.js";
 
 const fetchPokemon = async () => {
+    console.log(
+        chalk.bgYellow("Pokemon list:\n"),
+        chalk.yellow(await showPokemonList())
+    );
     let continueFetch = true;
 
     // creating a loop
     while (continueFetch) {
         try {
-            const { chosen_pokemon, chosen_attributes, proceeding } =
-                await getPokemonStats();
-
+            const { chosen_pokemon } = await getPokemonStats();
+            const { chosen_attributes, proceeding } =
+                await choosePokemonStats();
             // fetching pokemon data
 
             const fetchApi = await fetch(
