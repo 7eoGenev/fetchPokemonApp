@@ -1,13 +1,21 @@
 import * as file from "fs/promises";
 import path from "path";
+import chalk from "chalk";
 
 // creating and inserting stats' txt file
 
 export async function createStatsFile(pokemonName, attributes, statsText) {
-    if (attributes.includes("Stats")) {
-        const pathToFile = path.join(".", `./${pokemonName}_stats.txt`);
-        await file.writeFile(pathToFile, `${statsText}`, "utf-8");
-        console.log(`Saved ${pokemonName}_stats.txt`);
+    try {
+        if (attributes.includes("Stats")) {
+            const pathToFile = path.join(
+                process.cwd(),
+                `${pokemonName}_stats.txt`
+            );
+            await file.writeFile(pathToFile, `${statsText}`, "utf-8");
+            console.log(chalk.green(`Saved ${pokemonName}_stats.txt`));
+        }
+    } catch (error) {
+        console.error(chalk.red("Error occured saving stats:", error));
     }
 }
 
@@ -36,11 +44,11 @@ export async function createSpriteFolder(
                     const arrayBuffer = await response.arrayBuffer();
 
                     await file.writeFile(pathToFile, Buffer.from(arrayBuffer));
-                    console.log(`Saved sprite: ${spriteKey}`);
+                    console.log(chalk.green(`Saved sprite: ${spriteKey}`));
                 }
             }
         } catch (error) {
-            console.error("Error saved sprites:", error.message);
+            console.error(chalk.red("Error saved sprites:", error.message));
         }
     }
 }
@@ -55,9 +63,9 @@ export async function createArtwork(pokemonName, attributes, artwork) {
             const pathToFile = path.join(".", `${pokemonName}_artwork.png`);
 
             await file.writeFile(pathToFile, Buffer.from(bufferArtwork));
-            console.log(`Saved ${pokemonName} artwork`);
+            console.log(chalk.green(`Saved ${pokemonName} artwork`));
         } catch (error) {
-            console.error("Error saved artwork:", error.message);
+            console.error(chalk.red("Error saved artwork:", error.message));
         }
     }
 }
