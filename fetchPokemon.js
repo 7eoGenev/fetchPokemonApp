@@ -1,5 +1,5 @@
 import getPokemonStats from "./choosePokemon.js";
-import * as file from "fs/promises";
+
 import {
     createStatsFile,
     createSpriteFolder,
